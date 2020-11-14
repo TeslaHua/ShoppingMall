@@ -1,3 +1,4 @@
+# 配置数据源的信息
 spring:
   datasource:
     username: root
@@ -5,9 +6,12 @@ spring:
     url: jdbc:mysql://192.168.153.129:3306/shoppingmall_pms
     driver-class-name: com.mysql.jdbc.Driver
 
-
+# 配置mybatis-plus的信息
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
     db-config:
-      id-type: auto   
+      id-type: auto     # 主键自增
+
+server:
+  port: 10000

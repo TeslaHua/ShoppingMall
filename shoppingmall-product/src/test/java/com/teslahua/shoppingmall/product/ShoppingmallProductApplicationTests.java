@@ -19,9 +19,17 @@ class ShoppingmallProductApplicationTests {
     void contextLoads() {
         BrandEntity brandEntity = new BrandEntity();
 
+        // 测试修改
+        brandEntity.setBrandId(1L);
+        brandEntity.setDescript("TeslaHua");
+        brandService.updateById(brandEntity);
+
+        /*  测试新增
         brandEntity.setName("华为");
         brandService.save(brandEntity);
         System.out.println("保存成功......");
+        */
+
     }
 
 }
