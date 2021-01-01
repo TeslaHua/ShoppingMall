@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        enabled: false  #shoppingmall-common 添加了nacos相关的依赖，但是product并没有用nacos-config，所以要置为false
+      discovery:
+        enabled: false #shoppingmall-common 添加了nacos相关的依赖，但是product并没有用nacos-discovery，所以要置为false
