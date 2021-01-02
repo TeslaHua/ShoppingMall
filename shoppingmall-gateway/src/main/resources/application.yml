@@ -10,3 +10,21 @@ spring:
           uri: https://www.qq.com
           predicates:
             - Query=url,qq   # url = qq \u7684\u65AD\u8A00
+
+        - id: product_route
+          uri: lb://shoppingmall-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: admin_route
+          uri: lb://renren-fast
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+
+## 把所有前端项目带上 /api ，自动负载均衡路由到 renren-fast
+
+

@@ -5,6 +5,12 @@ spring:
     password: root
     url: jdbc:mysql://192.168.153.129:3306/shoppingmall_pms
     driver-class-name: com.mysql.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  application:
+    name: shoppingmall-product
 
 # 配置mybatis-plus的信息
 mybatis-plus:
