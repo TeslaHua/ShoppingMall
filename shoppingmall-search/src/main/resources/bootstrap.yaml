@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        enabled: false  #shoppingmall-common \u6DFB\u52A0\u4E86nacos\u76F8\u5173\u7684\u4F9D\u8D56\uFF0C\u4F46\u662Fproduct\u5E76\u6CA1\u6709\u7528nacos-config\uFF0C\u6240\u4EE5\u8981\u7F6E\u4E3Afalse
+      discovery:
+        enabled: false
