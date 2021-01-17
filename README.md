@@ -1,2 +1,2 @@
 # ShoppingMall
-购物商城
+购物商
