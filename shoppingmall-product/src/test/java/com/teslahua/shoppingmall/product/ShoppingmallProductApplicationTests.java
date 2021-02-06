@@ -6,7 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -14,6 +18,9 @@ class ShoppingmallProductApplicationTests {
 
     @Autowired
     BrandService brandService;
+
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
 
     @Test
     void contextLoads() {
@@ -32,4 +39,14 @@ class ShoppingmallProductApplicationTests {
 
     }
 
+    @Test
+    public void teststringRedisTemplate(){
+        ValueOperations<String,String> ops = stringRedisTemplate.opsForValue();
+        //保存
+        ops.set("hello","world_"+ UUID.randomUUID().toString());
+
+        //查询
+        String hello = ops.get("hello");
+        System.out.println("之前保存的数据是："+hello);
+    }
 }
