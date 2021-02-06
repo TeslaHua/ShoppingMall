@@ -32,12 +32,15 @@ public class AttrGroupController {
     private AttrGroupService attrGroupService;
 
     /**
-     * 列表
+     * 获取分类属性分组
      */
-    @RequestMapping("/list")
+    @RequestMapping("/list/{catelogId}")
     //@RequiresPermissions("product:attrgroup:list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = attrGroupService.queryPage(params);
+    public R list(@RequestParam Map<String, Object> params,
+                  @PathVariable("catelogId") long catelogId){
+        //PageUtils page = attrGroupService.queryPage(params);
+
+        PageUtils page = attrGroupService.queryPage(params,catelogId);
 
         return R.ok().put("page", page);
     }
