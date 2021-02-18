@@ -2,6 +2,7 @@ package com.teslahua.shoppingmall.product.web;
 
 import org.redisson.api.RLock;
 import org.redisson.api.RReadWriteLock;
+import org.redisson.api.RSemaphore;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -94,4 +95,35 @@ public class IndexController {
         return s;
     }
 
+    /**
+     * 信号量模拟车库停车
+     * 信号量可以用于分布式限流
+     * @return
+     * @throws InterruptedException
+     */
+    @GetMapping("/park")
+    @ResponseBody
+    public String park() throws InterruptedException {
+        RSemaphore park = redissonClient.getSemaphore("park");
+        //阻塞式获取
+        park.acquire();  //获取一个信号，占一个车位
+
+        /*
+        boolean b = park.tryAcquire();//非阻塞式获取
+        if(b){
+            //TODO 执行业务
+        }
+        */
+
+        return "park";
+    }
+
+    @GetMapping("/go")
+    @ResponseBody
+    public String go(){
+        RSemaphore go = redissonClient.getSemaphore("park");
+        go.release(); //释放一个车位
+
+        return "go";
+    }
 }
