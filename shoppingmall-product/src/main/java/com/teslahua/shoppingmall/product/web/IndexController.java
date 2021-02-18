@@ -1,13 +1,11 @@
 package com.teslahua.shoppingmall.product.web;
 
-import org.redisson.api.RLock;
-import org.redisson.api.RReadWriteLock;
-import org.redisson.api.RSemaphore;
-import org.redisson.api.RedissonClient;
+import org.redisson.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.UUID;
@@ -126,4 +124,29 @@ public class IndexController {
 
         return "go";
     }
+
+    /**
+     * 闭锁模拟放假锁门
+     * 必须等到5个班级都走完，才可以锁住大门
+     */
+    @GetMapping("/lockDoor")
+    @ResponseBody
+    public String lockDoor() throws InterruptedException {
+        RCountDownLatch door = redissonClient.getCountDownLatch("door");
+        door.trySetCount(5);
+        //等待闭锁都完成
+        door.await();
+        return "放假了...";
+    }
+
+    @GetMapping("gogogo/{id}")
+    @ResponseBody
+    public String gogogo(@PathVariable("id") Long id){
+        RCountDownLatch door = redissonClient.getCountDownLatch("door");
+        door.countDown(); // 计数器减一
+
+        return id+"班的人都走了...";
+    }
+
+
 }
