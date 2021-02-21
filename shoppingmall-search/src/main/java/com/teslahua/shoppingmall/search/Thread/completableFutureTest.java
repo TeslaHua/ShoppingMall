@@ -95,15 +95,16 @@ public class completableFutureTest {
 
         System.out.println("main...start...."+future.get());
 
+
         //两个任务组合-都要完成
-        CompletableFuture<Integer> future01 = CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Object> future01 = CompletableFuture.supplyAsync(() -> {
             System.out.println("线程1启动：" + Thread.currentThread().getId());
             int i = 10 / 5;
             System.out.println("线程1结束");
             return i;
         }, executorService);
 
-        CompletableFuture<String> future02 = CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Object> future02 = CompletableFuture.supplyAsync(() -> {
             System.out.println("线程2启动：" + Thread.currentThread().getId());
             System.out.println("线程2结束");
             return "hello";
@@ -125,6 +126,24 @@ public class completableFutureTest {
             System.out.println(result01 + " " + result02);
         }, executorService);
 
+
+
+        //两个任务组合 - 一个完成
+        future01.runAfterEitherAsync(future02,()->{
+            System.out.println("任务3开始：" + Thread.currentThread().getId());
+        },executorService);
+
+        future01.acceptEitherAsync(future02,(result)->{
+            System.out.println("任务3开始：" + Thread.currentThread().getId());
+            System.out.println(result);
+        },executorService);
+
+        CompletableFuture<Object> future03 = future01.applyToEitherAsync(future02, (result) -> {
+            System.out.println("任务3开始：" + Thread.currentThread().getId());
+            System.out.println(result);
+            return "world!";
+        }, executorService);
+        System.out.println("任务3结束："+future03.get());
          */
 
     }
