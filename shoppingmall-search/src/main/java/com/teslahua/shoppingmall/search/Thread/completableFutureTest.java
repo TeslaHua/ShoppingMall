@@ -45,7 +45,6 @@ public class completableFutureTest {
             return 10;
         });
         System.out.println("main...stop...."+future.get());
-         */
 
         CompletableFuture<Integer> future = CompletableFuture.supplyAsync(()->{
             System.out.println("当前线程：" + Thread.currentThread().getId());
@@ -62,5 +61,38 @@ public class completableFutureTest {
             return 0;
         });
         System.out.println("main...stop...."+future.get());
+
+        CompletableFuture<Void> future = CompletableFuture.supplyAsync(()->{
+            System.out.println("当前线程：" + Thread.currentThread().getId());
+            int i = 10 / 5;
+            System.out.println("运行结果：" + i);
+            return i;
+        },executorService).thenAcceptAsync(res->{
+            System.out.println("任务2启动："+res);
+        },executorService);
+
+
+        CompletableFuture<Void> future = CompletableFuture.supplyAsync(()->{
+            System.out.println("当前线程：" + Thread.currentThread().getId());
+            int i = 10 / 5;
+            System.out.println("运行结果：" + i);
+            return i;
+        },executorService).thenRunAsync(()->{
+            System.out.println("任务2启动");
+        },executorService);
+
+        CompletableFuture<Integer> future = CompletableFuture.supplyAsync(() -> {
+            System.out.println("当前线程：" + Thread.currentThread().getId());
+            int i = 10 / 5;
+            System.out.println("运行结果：" + i);
+            return i;
+        }, executorService).thenApplyAsync(res -> {
+            System.out.println("任务2启动：" + res);
+            return 5;
+        }, executorService);
+
+        System.out.println("main...start...."+future.get());
+         */
+        
     }
 }
