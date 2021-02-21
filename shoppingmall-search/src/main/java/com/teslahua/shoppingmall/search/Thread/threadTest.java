@@ -54,6 +54,15 @@ public class threadTest {
         executorService.execute(new Runnable01());
         System.out.println("main 方法结束了 ...");
 
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(
+                5,
+                200,
+                10,
+                TimeUnit.SECONDS,
+                new LinkedBlockingDeque<>(100000),
+                Executors.defaultThreadFactory(),
+                new ThreadPoolExecutor.AbortPolicy());
+
     }
 
     public static class Thread01 extends Thread{
