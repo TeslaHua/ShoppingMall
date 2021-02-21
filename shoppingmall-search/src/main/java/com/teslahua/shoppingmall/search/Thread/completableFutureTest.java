@@ -146,5 +146,26 @@ public class completableFutureTest {
         System.out.println("任务3结束："+future03.get());
          */
 
+        //多任务组合
+        CompletableFuture<String> futureImg = CompletableFuture.supplyAsync(() -> {
+            return ".jpg";
+        }, executorService);
+
+        CompletableFuture<String> futureColor = CompletableFuture.supplyAsync(() -> {
+            return "黑色";
+        }, executorService);
+
+        CompletableFuture<String> futureDesc = CompletableFuture.supplyAsync(() -> {
+            return "52G";
+        }, executorService);
+
+        CompletableFuture<Void> allOf = CompletableFuture.allOf(futureImg, futureColor, futureDesc);
+        allOf.get(); //阻塞式等待所有任务执行完成
+        System.out.println(futureImg.get()+"=>"+futureColor.get()+"=>"+futureDesc.get());
+
+        CompletableFuture<Object> anyOf = CompletableFuture.anyOf(futureImg, futureColor, futureDesc);
+        anyOf.get(); //阻塞式等待所有任务执行完成
+        System.out.println(anyOf.get());
+
     }
 }
