@@ -31,7 +31,6 @@ public class completableFutureTest {
             return i;
         },executorService);
         System.out.println("main...stop...."+future.get());
-         */
 
         CompletableFuture<Integer> future = CompletableFuture.supplyAsync(()->{
             System.out.println("当前线程：" + Thread.currentThread().getId());
@@ -44,6 +43,23 @@ public class completableFutureTest {
         }).exceptionally(throwable -> {
             //返回一个默认值
             return 10;
+        });
+        System.out.println("main...stop...."+future.get());
+         */
+
+        CompletableFuture<Integer> future = CompletableFuture.supplyAsync(()->{
+            System.out.println("当前线程：" + Thread.currentThread().getId());
+            int i = 10 / 5;
+            System.out.println("运行结果：" + i);
+            return i;
+        },executorService).handle((result,exception)->{
+            if(result != null){
+                return result*2;
+            }
+            if(exception != null){
+                return -1;
+            }
+            return 0;
         });
         System.out.println("main...stop...."+future.get());
     }
